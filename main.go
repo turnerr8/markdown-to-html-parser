@@ -72,6 +72,22 @@ func handleItalic(line string) string {
   }
   return newLine
 }
+
+
+
+// checks for strikethrough markdown and returns new string with html formatted strikethrough
+func handleStrikethrough(line string) string {
+	splitLine := strings.Split(line, "~~")
+  newLine := splitLine[0]
+  for i:=1; i<len(splitLine); i++ {
+    if i%2 != 0{
+      newLine += "<s>"+splitLine[i]+"</s>"     
+    } else {
+      newLine += splitLine[i]
+    }
+  }
+  return newLine
+}
 // --------------- Line Level Markdown ----------------
 
 
@@ -141,6 +157,7 @@ func handleFileContents(line string, writer *bufio.Writer) {
 	//inline level markdown
 	line = handleBold(line) 
   line = handleItalic(line)
+  line = handleStrikethrough(line)
 	//line level markdown
 	switch line[0] {
 	case '#':
